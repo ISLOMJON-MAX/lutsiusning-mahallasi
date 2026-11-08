@@ -308,8 +308,8 @@ function panel(){var pn=document.getElementById("pn");if(view=="sel"||view=="up"
   var cfg0=ST.cfg||{max:50};if((me.floors||0)<cfg0.max){var ub=E("button","btn","🏗 Uyni kuchaytirish");ub.style.width="100%";ub.style.border="0";ub.onclick=function(){view="up";panel()};pn.appendChild(ub)}
   var pa=E("a","btn","Instagram profilim");pa.href="https://instagram.com/"+encodeURIComponent(me.u);pa.target="_blank";pa.rel="noopener";pa.style.cssText="background:#0d1127;color:#f4f4fb";pn.appendChild(pa);return}
  pn.appendChild(E("b","","Uy olish"));pn.appendChild(E("div","mut","1) Instagramda obuna bo‘ling, 2) username’ingizni yozing va viloyatni tanlang."));
- var fa=E("a","btn","1️⃣ Instagramda @_lutsius ga obuna bo‘lish");fa.href=DEMO?"https://instagram.com/_lutsius":"/go?d="+DID;fa.target="_blank";fa.rel="noopener";fa.style.cssText="background:#e1306c;color:#fff";fa.onclick=function(){FOLLOW=true;try{localStorage.setItem("fl","1")}catch(e){}fa.textContent="✅ Obuna sahifasi ochildi";};pn.appendChild(fa);
- var inp=E("input");inp.placeholder="Instagram username (masalan: _lutsius)";inp.autocapitalize="off";inp.autocorrect="off";inp.style.margin="8px 0 0";pn.appendChild(inp);
+ var fa=E("a","btn","1️⃣ Instagramda @"+owner()+" ga obuna bo‘lish");fa.href=DEMO?"https://instagram.com/"+owner():"/go?d="+DID;fa.target="_blank";fa.rel="noopener";fa.style.cssText="background:#e1306c;color:#fff";fa.onclick=function(){FOLLOW=true;try{localStorage.setItem("fl","1")}catch(e){}fa.textContent="✅ Obuna sahifasi ochildi";};pn.appendChild(fa);
+ var inp=E("input");inp.placeholder="Instagram username’ingiz";inp.autocapitalize="off";inp.autocorrect="off";inp.style.margin="8px 0 0";pn.appendChild(inp);
  var s=E("select");RN.forEach(function(r){s.appendChild(E("option","",r))});pn.appendChild(s);
  var b=E("button","btn","2️⃣ Uy olish");b.style.width="100%";b.style.border="0";b.onclick=function(){join(inp.value,s.value)};pn.appendChild(b)}
 var DID=(function(){var d="";try{d=localStorage.getItem("did")||""}catch(e){}if(!/^[a-f0-9]{24}$/.test(d)){d="";for(var i=0;i<24;i++)d+=Math.floor(Math.random()*16).toString(16);try{localStorage.setItem("did",d)}catch(e){}}return d})();
@@ -344,6 +344,7 @@ function admLoad(l){fetch("/api/admin?key="+encodeURIComponent(AK)).then(functio
  (d.list||[]).forEach(function(x){var r=E("div","row");r.appendChild(E("span","","@"+x.u+" → "+x.to+" qavat · "+fmt(x.cost)+" so‘m"));var y=E("button","","✓"),n=E("button","","✗");y.onclick=function(){dec(x.u,true,l)};n.onclick=function(){dec(x.u,false,l)};r.appendChild(y);r.appendChild(n);l.appendChild(r)})})}
 function dec(u,a,l){fetch("/api/decide",{method:"POST",body:JSON.stringify({key:AK,u:u,approve:a})}).then(function(){admLoad(l);load(false)})}
 function goUser(u){var q=pos.filter(function(h){return h.u===u})[0];if(!q)return;sel=q;view="sel";flyRad=30;fly=new THREE.Vector3(q.x,0,q.z);panel()}
+function owner(){return(ST.cfg&&ST.cfg.owner)||"_lutsius"}
 function goMe(){if(meP){flyRad=30;fly=meP.clone()}}
 function goReg(r){var ri=RN.indexOf(r),a=slotPos(ri,0),b=slotPos(ri,CAP-1);flyRad=170;fly=new THREE.Vector3((a.x+b.x)/2,0,(a.z+b.z)/2)}
 bR.onclick=function(){view=view=="rank"?"info":"rank";panel()};bH.onclick=function(){view="info";sel=null;panel();goMe()};

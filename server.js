@@ -36,7 +36,7 @@ function state(t) {
   const all = Object.values(D.users), cnt = {}; REGIONS.forEach(r => cnt[r] = 0); all.forEach(u => cnt[u.r]++);
   const me = byToken(t);
   return { houses: all.map(u => ({ u: u.u, r: u.r, s: u.s, t: u.floors || 0 })), regions: REGIONS.map(r => ({ r, n: cnt[r] })).sort((a, b) => b.n - a.n),
-    me: me ? { u: me.u, r: me.r, floors: me.floors || 0, pending: me.pending || null } : null, cfg: Object.assign({ card: CARD }, CFG) };
+    me: me ? { u: me.u, r: me.r, floors: me.floors || 0, pending: me.pending || null } : null, cfg: Object.assign({ card: CARD, owner: OWNER }, CFG) };
 }
 function readBody(req, cb) { let raw = ""; req.on("data", c => { raw += c; if (raw.length > 2000) req.destroy(); }); req.on("end", () => { let b = {}; try { b = JSON.parse(raw); } catch (e) {} cb(b); }); }
 const server = http.createServer((req, res) => {
